@@ -46,12 +46,12 @@ const USER_SCHEMA = new mongoose.Schema({
   resetPasswordExpires: Date
 })
 
-USER_SCHEMA.index({
-  name: 'text',
-  email: 'text',
-  slug: 'text',
-  geo: '2dsphere'
-})
+// USER_SCHEMA.index({
+//   name: 'text',
+//   email: 'text',
+//   slug: 'text',
+//   geo: '2dsphere'
+// })
 
 USER_SCHEMA.methods.generateHash = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
