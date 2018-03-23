@@ -17,7 +17,7 @@ APP.use(logger('dev'))
 APP.use(session({
   store: new MONGO_STORE({ mongooseConnection: mongoose.connection }),
   secret: 'kdvcvader',
-  'path': '/',
+  path: '/',
   cookie: {
     secure: false,
     httpOnly: false,
