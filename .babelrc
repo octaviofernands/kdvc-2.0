@@ -1,0 +1,18 @@
+{
+  "presets": ["env", "stage-2"],
+  // "plugins": ["transform-runtime", "syntax-dynamic-import"],
+  "comments": true,
+  "env": {
+    "test": {
+      "presets": [["env"]] // ,
+      // "plugins": [
+      //   ["transform-runtime", {
+      //     "helpers": false,
+      //     "polyfill": false,
+      //     "regenerator": true }],
+      //   "dynamic-import-node",
+      //   "syntax-dynamic-import"
+      // ]
+    }
+  }
+}

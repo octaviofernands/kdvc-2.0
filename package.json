@@ -1,0 +1,44 @@
+{
+  "name": "kdvc-2.0",
+  "version": "2.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -w src --exec \"babel-node src --presets env\"",
+    "build": "babel src -s -D -d dist --presets env",
+    "start": "node dist",
+    "prestart": "npm run -s build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/octaviofernands/kdvc-2.0.git"
+  },
+  "author": "Octavio Fernandes <octaviofernandes.inf@gmail.com>",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/octaviofernands/kdvc-2.0#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.2",
+    "connect-mongo": "^2.0.1",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "express-validator": "^5.0.1",
+    "moment-timezone": "^0.5.14",
+    "mongoose": "^5.0.6",
+    "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
+    "slug": "^0.9.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^4.18.1",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.15.1"
+  }
+}
