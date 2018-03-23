@@ -7,7 +7,7 @@ import connectMongo from 'connect-mongo'
 import bodyParser from 'body-parser';
 
 mongoose.Promise = global.Promise
-mongoose.connect(process.env.MONGO_URL)
+mongoose.connect("mongodb://mongo:27017")
 
 const MONGO_STORE = connectMongo(session)
 
