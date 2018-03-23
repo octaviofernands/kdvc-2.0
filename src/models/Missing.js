@@ -8,12 +8,11 @@ const MISSING_SCHEMA = new mongoose.Schema({
   sex: String,
   slug: String,
   location: {
-    country: String,
-    state: String,
+    address: String,
+    number: Number,
+    district: String,
     city: String,
-    place: String,
-    lat: Number,
-    lng: Number
+    state: String
   },
   geo: {
     type: {type: String},

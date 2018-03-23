@@ -1,5 +1,6 @@
 import Missing from '../models/Missing'
 import moment from 'moment'
+import getLocation from '../utils/get-location'
 
 export const createMissing = (req) => {
     return new Promise((resolve, reject) => {
@@ -11,10 +12,11 @@ export const createMissing = (req) => {
             slug: form.slug,
 
             location: {
-                country: form.country,
-                state: form.state,
-                city: form.city,
-                place: form.place,                
+                address: form.location.address,
+                number: form.location.number,
+                district: form.location.district,
+                city: form.location.city,
+                state: form.location.state
             },
 
             // geo: {
@@ -28,12 +30,21 @@ export const createMissing = (req) => {
             created_at: moment().format(),
 
         }
-        let missing = new Missing(object)
-        missing.save().then((response) => {
-            resolve(response)
-        })
-        .catch((response) => {
-            reject(response)
+
+        getLocation(object.location).then((result) => {
+            if (result) {
+                object.geo = {
+                    type : "Point",
+                    coordinates : [result.lat,result.lng]
+                }
+            };
+                let missing = new Missing(object)
+                missing.save().then((response) => {
+                    resolve(response)
+                })
+                .catch((response) => {
+                    reject(response)
+                })
         })
     })
 }
