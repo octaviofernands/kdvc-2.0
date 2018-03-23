@@ -1,14 +1,18 @@
 import User from '../models/User'
 import moment from 'moment'
+import slug from 'slug'
 
 export const simpleRegister = (req) => {
     return new Promise((resolve, reject) => {
         validate(req).then(() => {
+            return slugify(req.body.name)
+        }).then((slug) => {
             let form = req.body
             let object = {
                 name: form.name,
                 email: form.email,
                 password: form.password,
+                slug: slug,
                 location: {
                     country: form.country,
                     state: form.state,
@@ -52,4 +56,23 @@ function validate(req) {
     })
 
     return promise
+}
+
+function slugify(value, attempt = 0) {
+
+    let nameToSlug = value
+    if (attempt > 0) {
+        nameToSlug += ' ' + attempt
+    }
+
+    let slugged = slug(nameToSlug, {lower: true})
+
+    return User.findOne({slug: slugged}).then(user => {
+
+        if(!user) {
+            return slugged
+        } else {
+            return slugify(value, ++attempt)
+        }
+    })
 }
