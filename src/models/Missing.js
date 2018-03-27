@@ -1,28 +1,27 @@
 import mongoose from 'mongoose'
 
 const MISSING_SCHEMA = new mongoose.Schema({
-  user: { type: Schema.Types.ObjectId, ref: 'users' },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
   name: { type: String, index: true },
   alias: String,
   age: Number,
   sex: String,
   slug: String,
   location: {
-    country: String,
-    state: String,
+    address: String,
+    number: Number,
+    district: String,
     city: String,
-    place: String,
-    lat: Number,
-    lng: Number
+    state: String
   },
   geo: {
     type: {type: String},
     coordinates: [Number]
   },
   dth_missing: Date,
-  skin_color: { type: Schema.Types.ObjectId, ref: 'skinColors' },
-  eye_color: { type: Schema.Types.ObjectId, ref: 'eyeColors' },
-  hair_color: { type: Schema.Types.ObjectId, ref: 'hairColors' },
+  skin_color: { type: mongoose.Schema.Types.ObjectId, ref: 'skinColors' },
+  eye_color: { type: mongoose.Schema.Types.ObjectId, ref: 'eyeColors' },
+  hair_color: { type: mongoose.Schema.Types.ObjectId, ref: 'hairColors' },
   weight: Number,
   height: Number,
   description: String,
@@ -57,7 +56,7 @@ const MISSING_SCHEMA = new mongoose.Schema({
   },
   found: { type: Boolean, default: false },
   alive: { type: Boolean, default: true },
-  created: { type: Date, default: Date.now },
+  created_at: { type: Date, default: Date.now },
   page: {
     facebook: {
       posted: Boolean,
@@ -94,7 +93,7 @@ const MISSING_SCHEMA = new mongoose.Schema({
   ],
   history: [
     {
-      seen_by: [{ type: Schema.Types.ObjectId, ref: 'users' }],
+      seen_by: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
       location: {
         country: String,
         state: String,
@@ -111,18 +110,18 @@ const MISSING_SCHEMA = new mongoose.Schema({
   abuse: {
     reported: { type: Boolean, default: false },
     report: String,
-    reportedBy: [{ type: Schema.Types.ObjectId, ref: 'users' }],
+    reportedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
     dth_reported: Date,
 
   },
   removed: { type: Boolean, default: false }
 })
 
-MISSING_SCHEMA.index({
-  name: 'text',
-  alias: 'text',
-  slug: 'text',
-  geo: '2dsphere'
-})
+// MISSING_SCHEMA.index({
+//   name: 'text',
+//   alias: 'text',
+//   slug: 'text',
+//   geo: '2dsphere'
+// })
 
 export default mongoose.model('missings', MISSING_SCHEMA)

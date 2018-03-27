@@ -8,7 +8,7 @@ import bodyParser from 'body-parser'
 import validatorConfig from './config/validator.config'
 
 mongoose.Promise = global.Promise
-mongoose.connect(process.env.MONGO_URL)
+mongoose.connect("mongodb://mongo:27017")
 
 const MONGO_STORE = connectMongo(session)
 
