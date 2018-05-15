@@ -3,20 +3,19 @@ import bcrypt from 'bcrypt-nodejs'
 import moment from 'moment-timezone'
 
 const USER_SCHEMA = new mongoose.Schema({
-  name: String,
+  name: {type: String, index: true},
   email: { 
     type: String, 
     unique: true,
-    lowercase: true 
+    lowercase: true,
+    index: true
   },
   password: String,
-  slug: String,
+  slug: {type: String, index: true},
   location: {
     country: String,
     state: String,
-    city: String,
-    lat: Number,
-    lng: Number
+    city: String
   },
   geo: {
     type: {type: String},
@@ -27,31 +26,28 @@ const USER_SCHEMA = new mongoose.Schema({
     user: String,
     userId: String,
     token: String,
-    refreshToken: String,
+    refresh_token: String,
     scope: [String],
     canPost: Boolean
   },
   twitter: {
     user: String,
-    userId: String,
+    user_id: String,
     token: String,
-    tokenSecret: String,
+    token_secret: String,
     canPost: Boolean
   },
   picture: String,
   removed: { type: Boolean, default: false },
   volunteer: { type: Boolean, default: false },
   created: { type: Date, default: moment() },
-  resetPasswordToken: String,
-  resetPasswordExpires: Date
+  reset_password_token: String,
+  reset_password_expires: Date,
+  email_confirm_hash: String,
+  confirmed_email: { type: Boolean, default: false }
 })
 
-// USER_SCHEMA.index({
-//   name: 'text',
-//   email: 'text',
-//   slug: 'text',
-//   geo: '2dsphere'
-// })
+USER_SCHEMA.index({geo: '2dsphere'})
 
 USER_SCHEMA.methods.generateHash = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)

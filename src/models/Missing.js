@@ -2,11 +2,11 @@ import mongoose from 'mongoose'
 
 const MISSING_SCHEMA = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'users' },
-  name: { type: String, index: true },
+  name: {type: String, index: true},
   alias: String,
   age: Number,
   sex: String,
-  slug: String,
+  slug: {type: String, index: true},
   location: {
     address: String,
     number: Number,
@@ -110,18 +110,13 @@ const MISSING_SCHEMA = new mongoose.Schema({
   abuse: {
     reported: { type: Boolean, default: false },
     report: String,
-    reportedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
+    reported_by: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
     dth_reported: Date,
 
   },
   removed: { type: Boolean, default: false }
 })
 
-// MISSING_SCHEMA.index({
-//   name: 'text',
-//   alias: 'text',
-//   slug: 'text',
-//   geo: '2dsphere'
-// })
+MISSING_SCHEMA.index({geo: '2dsphere'})
 
 export default mongoose.model('missings', MISSING_SCHEMA)

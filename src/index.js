@@ -5,10 +5,12 @@ import logger from 'morgan'
 import session from 'express-session'
 import connectMongo from 'connect-mongo'
 import bodyParser from 'body-parser'
+import passport from 'passport'
 import validatorConfig from './config/validator.config'
+import passportConfig from './config/passport.config'
 
 mongoose.Promise = global.Promise
-mongoose.connect("mongodb://mongo:27017")
+mongoose.connect(process.env.MONGO_URL)
 
 const MONGO_STORE = connectMongo(session)
 
@@ -31,6 +33,10 @@ APP.use(session({
   resave: false,
   saveUninitialized: false
 }))
+
+APP.use(passport.initialize())
+APP.use(passport.session())
+passportConfig(passport)
 
 APP.use(ROUTER)
 

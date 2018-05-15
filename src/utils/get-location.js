@@ -1,24 +1,25 @@
-import fetch from "node-fetch"
+import fetch from 'node-fetch'
 
 export default function(location) {
   let urlAddr = encodeURIComponent(location.address + ' ' + location.number + ' ' + location.district + ' ' + location.city + ' ' + location.state);
-  console.log(urlAddr)
-  return fetch('https://maps.googleapis.com/maps/api/geocode/json?&address=' + urlAddr)
-    .then((res) => { return res.json() })
-    .then((json) => {
-      console.log(json)
-      if(json.status === 'OK') {
-        try {
-          let location = json.results[0].geometry.location;
-          return location;
-        } catch(e) {
-          return false
+  
+  return new Promise((resolve, reject) => {
+    fetch('https://maps.googleapis.com/maps/api/geocode/json?&address=' + urlAddr)
+      .then(res => res.json())
+      .then((json) => {
+        if(json.status === 'OK') {
+          try {
+            let location = json.results[0].geometry.location
+            resolve(location)
+          } catch(e) {
+            resolve(false)
+          }
+        } else {
+          resolve(false)
         }
-      } else {
-        return false
-      }
-    })
-    .catch((err) => {
-      return false
-    })
+      })
+      .catch((err) => {
+        resolve(false)
+      })
+  })
 }
