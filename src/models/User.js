@@ -23,12 +23,9 @@ const USER_SCHEMA = new mongoose.Schema({
   },
   locale: String,
   facebook: {
-    user: String,
     userId: String,
     token: String,
-    refresh_token: String,
-    scope: [String],
-    canPost: Boolean
+    refresh_token: String
   },
   twitter: {
     user: String,
@@ -38,6 +35,8 @@ const USER_SCHEMA = new mongoose.Schema({
     canPost: Boolean
   },
   picture: String,
+  birthdate: String,
+  gender: String,
   removed: { type: Boolean, default: false },
   volunteer: { type: Boolean, default: false },
   created: { type: Date, default: moment() },

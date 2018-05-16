@@ -15,9 +15,9 @@ export const simpleRegister = (req) => {
         password: form.password,
         slug: slug,
         location: {
-          country: form.country,
-          state: form.state,
-          city: form.city
+          country: form.location.country,
+          state: form.location.state,
+          city: form.location.city
         },
         volunteer: form.volunteer ? true : false,
         created_at: moment().format(),
@@ -28,8 +28,6 @@ export const simpleRegister = (req) => {
       user.password = user.generateHash(user.password)
 
       getLocation(object.location).then((result) => {
-
-        console.log('result', result)
         if(result) {
           user.geo = {
             type : 'Point',
@@ -49,6 +47,16 @@ export const simpleRegister = (req) => {
       reject(error)
     })
   })
+}
+
+export const getUserPayload = (user) => {
+  return {
+    name: user.name,
+    email: user.email,
+    location: user.location,
+    slug: user.slug,
+    volunteer: user.volunteer
+  }
 }
 
 function validateSimpleRegister(req) {

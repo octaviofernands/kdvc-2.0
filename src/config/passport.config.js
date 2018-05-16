@@ -3,8 +3,15 @@ import User from '../models/User'
 import {Strategy as LocalStrategy} from 'passport-local'
 import {Strategy as FacebookStrategy} from 'passport-facebook'
 import {Strategy as TwitterStrategy} from 'passport-twitter'
+import {Strategy as JwtStrategy, ExtractJwt} from 'passport-jwt'
 
 export default (passport) => {
+
+  const JWT_OPTIONS = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
+    secretOrKey: process.env.JWT_SECRET
+  }
+
   passport.serializeUser((user, done) => {
     done(null, user.id)
   })
@@ -15,7 +22,20 @@ export default (passport) => {
     })
   })
 
-  passport.use('localLogin', new LocalStrategy({
+  passport.use('facebook', new FacebookStrategy({
+      clientID: process.env.FB_APP_ID,
+      clientSecret: process.env.FB_APP_SECRET,
+      callbackURL: process.env.FB_CALLBACK_URL,
+      profileFields: ['id','name','email','location','gender','birthday', 'picture']
+    }, (accessToken, refreshToken, profile, done) => {
+      console.log('accessToken', accessToken)
+      console.log('refreshToken', refreshToken)
+      console.log('profile', profile)
+      return done(null, profile)
+    }
+  ))
+
+  passport.use('local', new LocalStrategy({
       usernameField : 'email',
       passwordField : 'password',
       passReqToCallback : true
@@ -32,8 +52,20 @@ export default (passport) => {
 
           return done(null, user)
         })
-    })
-  )
+    }
+  ))
 
-  return passport
+  passport.use('jwt', new JwtStrategy(JWT_OPTIONS, (jwtPayload, done) => {
+    User.findOne({email: jwtPayload.email})
+      .then((user) => {
+        if(!user) return done(null, false)
+        
+        let objUser = user
+        return done(null, objUser)
+      })
+      .catch((err) => {
+        return done(err)
+      })
+  }))
+
 }

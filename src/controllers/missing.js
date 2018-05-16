@@ -10,7 +10,6 @@ export const createMissing = (req) => {
       age: form.age,
       sex: form.sex,
       slug: form.slug,
-      
       location: {
         address: form.location.address,
         number: form.location.number,
@@ -23,7 +22,6 @@ export const createMissing = (req) => {
       height: form.height,
       description: form.description,
       created_at: moment().format(),
-      
     }
     
     getLocation(object.location).then((result) => {
