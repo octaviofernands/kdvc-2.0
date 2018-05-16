@@ -49,11 +49,11 @@ const USER_SCHEMA = new mongoose.Schema({
 
 USER_SCHEMA.index({geo: '2dsphere'})
 
-USER_SCHEMA.methods.generateHash = (password) => {
+USER_SCHEMA.methods.generateHash = function(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
 }
 
-USER_SCHEMA.methods.validPassword = (password) => {
+USER_SCHEMA.methods.validPassword = function(password) {
   return bcrypt.compareSync(password, this.password)
 }
 

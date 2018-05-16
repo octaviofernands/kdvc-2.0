@@ -1,5 +1,6 @@
 import {Router} from 'express'
 import passport from 'passport'
+import jwt from 'jsonwebtoken'
 import {simpleRegister} from './controllers/user'
 import {createMissing} from './controllers/missing'
 
@@ -14,15 +15,27 @@ ROUTER.post('/user/signup', (req, res) => {
 })
 
 ROUTER.post('/login', (req, res) => {
-  passport.authenticate('local', {}, (err, user) => {
+  passport.authenticate('localLogin', {}, (err, user, info) => {
     if(err) {
-      res.status(400).json({})
+      res.status(401).json(info)
     }
-    console.log('user', user)
+
+    let payload = {
+      name: user.name,
+      email: user.email,
+      id: user.id
+    }
+
+    let token = jwt.sign(payload, process.env.JWT_SECRET)
+
+    payload.token = token
+
     if(user) {
-      res.json(user)
+      res.json(payload)
+    } else {
+      res.status(401).json(info)
     }
-  })
+  })(req, res)
 })
 
 // ROUTER.post('/missing/create', (req, res) => {

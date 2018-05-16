@@ -19,6 +19,7 @@ const APP = express()
 import ROUTER from './routes'
 
 APP.use(bodyParser.json())
+APP.use(bodyParser.urlencoded({ extended: false }))
 APP.use(expressValidator(validatorConfig))
 APP.use(logger('dev'))
 APP.use(session({
@@ -33,6 +34,7 @@ APP.use(session({
   resave: false,
   saveUninitialized: false
 }))
+
 
 APP.use(passport.initialize())
 APP.use(passport.session())

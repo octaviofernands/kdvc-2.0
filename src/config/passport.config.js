@@ -15,15 +15,13 @@ export default (passport) => {
     })
   })
 
-  passport.use('local', new LocalStrategy({
+  passport.use('localLogin', new LocalStrategy({
       usernameField : 'email',
       passwordField : 'password',
       passReqToCallback : true
     }, (req, email, password, done) => {
-      console.log(123)
       User.findOne({email: email, removed: false})
         .then((user) => {
-          console.log('login User', user)
           if(!user) {
             return done(null, false, {path: 'login_user_not_found', msg: 'User not found'})
           }
@@ -36,4 +34,6 @@ export default (passport) => {
         })
     })
   )
+
+  return passport
 }
