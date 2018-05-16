@@ -59,6 +59,14 @@ export const getUserPayload = (user) => {
   }
 }
 
+export const facebookRegister = (user) => {
+
+}
+
+export const facebookRegister = (user) => {
+  
+}
+
 function validateSimpleRegister(req) {
   req.checkBody('name', 'Nome inválido').notEmpty()
   req.checkBody('email', 'E-mail inválido').notEmpty()
