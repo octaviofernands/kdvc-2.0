@@ -1,7 +1,11 @@
 import {Router} from 'express'
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
-import {simpleRegister, getUserPayload} from './controllers/user'
+import {
+  simpleRegister, 
+  getUserPayload,
+  facebookCallbackHandler
+} from './controllers/user'
 import {createMissing} from './controllers/missing'
 
 const ROUTER = Router()
@@ -42,6 +46,7 @@ ROUTER.get('/auth/facebook', passport.authenticate('facebook', {
 }))
 
 ROUTER.get('/auth/facebook/callback', passport.authenticate('facebook'), (req, res) => {
+  facebookCallbackHandler(req.user)
   res.json({})
 })
 

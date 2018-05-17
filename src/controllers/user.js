@@ -59,11 +59,32 @@ export const getUserPayload = (user) => {
   }
 }
 
+export const isUserFullRegistered = (user) => {
+  return 
+    user.password && 
+    user.password !== '' &&
+    user.volunteer !== undefined &&
+    user.location && 
+    user.location.city
+}
+
+export const facebookCallbackHandler = (user) => {
+  return User.findOne({'facebook.userId': user.id, removed: false})
+    .then((user) => {
+      if(user) {
+        // user exists
+      } else {
+        // register user
+      }
+    })
+  console.log(user)
+}
+
 export const facebookRegister = (user) => {
 
 }
 
-export const facebookRegister = (user) => {
+export const facebookRegisterCallback = (user) => {
   
 }
 
@@ -72,6 +93,7 @@ function validateSimpleRegister(req) {
   req.checkBody('email', 'E-mail inválido').notEmpty()
   req.checkBody('email', 'E-mail existente').isEmailAvailable()
   req.checkBody('password', 'Senha inválida').notEmpty()
+
   let promise = new Promise((resolve, reject) => {
     req.getValidationResult().then((result) => {
       let errors = result.useFirstErrorOnly().array()
