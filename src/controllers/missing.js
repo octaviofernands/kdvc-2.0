@@ -28,7 +28,7 @@ export const createMissing = (req) => {
       if(result) {
         object.geo = {
           type : 'Point',
-          coordinates : [result.lng, result.lat]
+          coordinates : [result.geo.lng, result.geo.lat]
         }
       }
 

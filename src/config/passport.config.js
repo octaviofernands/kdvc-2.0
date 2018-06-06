@@ -26,11 +26,9 @@ export default (passport) => {
       clientID: process.env.FB_APP_ID,
       clientSecret: process.env.FB_APP_SECRET,
       callbackURL: process.env.FB_CALLBACK_URL,
-      profileFields: ['id','name','email','location','gender','birthday', 'picture']
+      profileFields: ['id','name','email','location','gender','birthday', 'picture.type(large)']
     }, (accessToken, refreshToken, profile, done) => {
-      console.log('accessToken', accessToken)
-      console.log('refreshToken', refreshToken)
-      console.log('profile', profile)
+      profile.access_token = accessToken 
       return done(null, profile)
     }
   ))

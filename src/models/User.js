@@ -23,7 +23,7 @@ const USER_SCHEMA = new mongoose.Schema({
   },
   locale: String,
   facebook: {
-    userId: String,
+    user_id: String,
     token: String,
     refresh_token: String
   },

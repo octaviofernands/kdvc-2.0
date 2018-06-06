@@ -1,18 +1,10 @@
 import User from '../models/User'
+import { isUserEmailAvailable } from '../controllers/user'
 
 export default {
   customValidators: {
     isEmailAvailable: (email) => {
-      return new Promise((resolve, reject) => {
-        User.findOne({email: email})
-        .then(user => {
-          if(user) {
-            reject()
-          } else {
-            resolve()
-          }
-        })
-      });
+      return isUserEmailAvailable(email)
     }
   }
 }
